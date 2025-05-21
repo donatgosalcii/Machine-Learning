@@ -1,0 +1,175 @@
+❯ python ml_project_sem10.py
+--------------------------------------------------
+Project: Machine Learning Sem 10 - Regression
+--------------------------------------------------
+
+I. Data Wrangling (Preparing the Data)
+======================================
+
+1. Data Acquisition:
+   Dataset loaded successfully.
+   Shape of the dataset: (20640, 9)
+   First 5 rows of the dataset:
+    MedInc  HouseAge  AveRooms  AveBedrms  Population  AveOccup  Latitude  Longitude  MedHouseVal
+0  8.3252      41.0  6.984127   1.023810       322.0  2.555556     37.88    -122.23        4.526
+1  8.3014      21.0  6.238137   0.971880      2401.0  2.109842     37.86    -122.22        3.585
+2  7.2574      52.0  8.288136   1.073446       496.0  2.802260     37.85    -122.24        3.521
+3  5.6431      52.0  5.817352   1.073059       558.0  2.547945     37.85    -122.25        3.413
+4  3.8462      52.0  6.281853   1.081081       565.0  2.181467     37.85    -122.25        3.422
+
+
+2. Data Inspection and Exploration (Initial):
+   Basic information about the dataset (df.info()):
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 20640 entries, 0 to 20639
+Data columns (total 9 columns):
+ #   Column       Non-Null Count  Dtype  
+---  ------       --------------  -----  
+ 0   MedInc       20640 non-null  float64
+ 1   HouseAge     20640 non-null  float64
+ 2   AveRooms     20640 non-null  float64
+ 3   AveBedrms    20640 non-null  float64
+ 4   Population   20640 non-null  float64
+ 5   AveOccup     20640 non-null  float64
+ 6   Latitude     20640 non-null  float64
+ 7   Longitude    20640 non-null  float64
+ 8   MedHouseVal  20640 non-null  float64
+dtypes: float64(9)
+memory usage: 1.4 MB
+
+
+   Descriptive statistics (df.describe()):
+             MedInc      HouseAge      AveRooms     AveBedrms    Population      AveOccup      Latitude     Longitude   MedHouseVal
+count  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000
+mean       3.870671     28.639486      5.429000      1.096675   1425.476744      3.070655     35.631861   -119.569704      2.068558
+std        1.899822     12.585558      2.474173      0.473911   1132.462122     10.386050      2.135952      2.003532      1.153956
+min        0.499900      1.000000      0.846154      0.333333      3.000000      0.692308     32.540000   -124.350000      0.149990
+25%        2.563400     18.000000      4.440716      1.006079    787.000000      2.429741     33.930000   -121.800000      1.196000
+50%        3.534800     29.000000      5.229129      1.048780   1166.000000      2.818116     34.260000   -118.490000      1.797000
+75%        4.743250     37.000000      6.052381      1.099526   1725.000000      3.282261     37.710000   -118.010000      2.647250
+max       15.000100     52.000000    141.909091     34.066667  35682.000000   1243.333333     41.950000   -114.310000      5.000010
+
+
+3. Data Cleaning:
+   Checking for missing values (df.isnull().sum()):
+MedInc         0
+HouseAge       0
+AveRooms       0
+AveBedrms      0
+Population     0
+AveOccup       0
+Latitude       0
+Longitude      0
+MedHouseVal    0
+dtype: int64
+   No missing values found.
+
+
+   Number of duplicate rows: 0
+
+
+4. Data Transformation (Feature Engineering & Scaling - initial setup):
+   Features (X) shape: (20640, 8)
+   Target (y) shape: (20640,)
+   Feature scaling will be applied after data splitting.
+
+II. Data Analysis (Exploring and Understanding Patterns)
+======================================================
+
+1. Descriptive Statistics (Revisited):
+             MedInc      HouseAge      AveRooms     AveBedrms    Population      AveOccup      Latitude     Longitude   MedHouseVal
+count  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000  20640.000000
+mean       3.870671     28.639486      5.429000      1.096675   1425.476744      3.070655     35.631861   -119.569704      2.068558
+std        1.899822     12.585558      2.474173      0.473911   1132.462122     10.386050      2.135952      2.003532      1.153956
+min        0.499900      1.000000      0.846154      0.333333      3.000000      0.692308     32.540000   -124.350000      0.149990
+25%        2.563400     18.000000      4.440716      1.006079    787.000000      2.429741     33.930000   -121.800000      1.196000
+50%        3.534800     29.000000      5.229129      1.048780   1166.000000      2.818116     34.260000   -118.490000      1.797000
+75%        4.743250     37.000000      6.052381      1.099526   1725.000000      3.282261     37.710000   -118.010000      2.647250
+max       15.000100     52.000000    141.909091     34.066667  35682.000000   1243.333333     41.950000   -114.310000      5.000010
+
+
+2. Exploratory Data Analysis (EDA):
+   Visualization:
+   - Saved distribution of Median House Value to plot_01_target_distribution.png.
+   - Saving histograms for numerical features.
+   - Saved histograms for numerical features to plot_02_feature_histograms.png.
+   Correlation Analysis:
+   - Saved correlation heatmap to plot_03_correlation_heatmap.png.
+   Correlation with Median House Value (MedHouseVal):
+ MedHouseVal    1.000000
+MedInc         0.688075
+AveRooms       0.151948
+HouseAge       0.105623
+AveOccup      -0.023737
+Population    -0.024650
+Longitude     -0.045967
+AveBedrms     -0.046701
+Latitude      -0.144160
+Name: MedHouseVal, dtype: float64
+
+
+   - Saved scatter plot: Median Income vs. Median House Value to plot_04_medinc_vs_medhouseval.png.
+
+
+III. Regression Model Execution
+===============================
+
+1. Choosing the Right Regression Model:
+   - Selected Model: Linear Regression (as a starting point).
+
+2. Splitting the Data (Train/Test Split):
+   X_train shape: (16512, 8), y_train shape: (16512,)
+   X_test shape: (4128, 8), y_test shape: (4128,)
+
+   Applying Feature Scaling (StandardScaler):
+   First 5 rows of scaled training features:
+      MedInc  HouseAge  AveRooms  AveBedrms  Population  AveOccup  Latitude  Longitude
+0 -0.326196  0.348490 -0.174916  -0.208365    0.768276  0.051376 -1.372811   1.272587
+1 -0.035843  1.618118 -0.402835  -0.128530   -0.098901 -0.117362 -0.876696   0.709162
+2  0.144701 -1.952710  0.088216  -0.257538   -0.449818 -0.032280 -0.460146  -0.447603
+3 -1.017864  0.586545 -0.600015  -0.145156   -0.007434  0.077507 -1.382172   1.232698
+4 -0.171488  1.142008  0.349007   0.086624   -0.485877 -0.068832  0.532084  -0.108551
+
+
+3. Model Training:
+   Linear Regression model trained successfully.
+
+   Model Coefficients (Weights):
+MedInc        0.854383
+HouseAge      0.122546
+AveRooms     -0.294410
+AveBedrms     0.339259
+Population   -0.002308
+AveOccup     -0.040829
+Latitude     -0.896929
+Longitude    -0.869842
+dtype: float64
+
+   Model Intercept: 2.0719
+
+4. Model Evaluation:
+   Mean Squared Error (MSE) on Test Set: 0.5559
+   Root Mean Squared Error (RMSE) on Test Set: 0.7456
+   R-squared (R²) on Test Set: 0.5758
+
+   - Saved Actual vs. Predicted values plot to plot_05_actual_vs_predicted.png.
+   - Saved distribution of residuals to plot_06_residuals_distribution.png.
+
+
+IV. Documentation and Reporting
+===============================
+
+   - The steps taken in this script, including comments and printed outputs, form the basis of documentation.
+   - Key findings include:
+     - The dataset has 20640 samples and 8 features plus 1 target variable.
+     - 'MedInc' (Median Income) showed the highest positive correlation with 'MedHouseVal' (Target).
+     - A Linear Regression model was trained and evaluated.
+     - The model achieved an R-squared of approximately 0.58 on the test set.
+   - Visualizations (histograms, correlation heatmap, scatter plots, actual vs. predicted plot, residuals plot) were generated and saved as PNG files.
+   - Key metrics (MSE, RMSE, R²) were calculated and reported.
+
+--------------------------------------------------
+End of Project Script
+--------------------------------------------------
+
+
